@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "app"
+version = "0.1.0"
+description = ""
+authors = ["Fedir Alifirenko <fedor.alifirenko@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = {extras = ["standard"], version = "^0.115.5"}
+uvloop = "^0.21.0"
+uvicorn = "^0.32.1"
+
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.14.0"
+black = "^24.10.0"
+mypy = "^1.13.0"
+flake8 = "^7.1.1"
+isort = "^5.13.2"
+pytest = "^8.3.3"
+
+
+[tool.taskipy.tasks]
+lint = "task lint_flake8 && task lint_isort && task lint_black && task lint_mypy"
+lint_isort = "isort app tests --check-only"
+lint_flake8 = "flake8 app tests"
+lint_black = "black --check app tests"
+lint_mypy = "mypy app tests --install-types --non-interactive"
+
+test = "pytest"
+format = "task format_isort && task format_black"
+format_isort = "isort app tests"
+format_black = "black app tests"
+ci = "task lint && task test"
+
+compose-clean = "docker compose down --volumes --remove-orphans"
+compose-up = "docker compose up"
+compose-test = "docker compose run --rm test"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
