@@ -4,12 +4,15 @@ version = "0.1.0"
 description = ""
 authors = ["Fedir Alifirenko <fedor.alifirenko@gmail.com>"]
 readme = "README.md"
+packages = [{include = "app"}]
 
 [tool.poetry.dependencies]
 python = "^3.12"
 fastapi = {extras = ["standard"], version = "^0.115.5"}
 uvloop = "^0.21.0"
 uvicorn = "^0.32.1"
+sqlalchemy = {version = "^2.0.36", extras = ["postgresql-asyncpg"]}
+pydantic = {version = "^2.10.1", extras = ["mypy"]}
 
 
 [tool.poetry.group.dev.dependencies]
@@ -28,7 +31,7 @@ lint_flake8 = "flake8 app tests"
 lint_black = "black --check app tests"
 lint_mypy = "mypy app tests --install-types --non-interactive"
 
-test = "pytest"
+test = "pytest -v"
 format = "task format_isort && task format_black"
 format_isort = "isort app tests"
 format_black = "black app tests"
@@ -37,6 +40,20 @@ ci = "task lint && task test"
 compose-clean = "docker compose down --volumes --remove-orphans"
 compose-up = "docker compose up"
 compose-test = "docker compose run --rm test"
+
+
+[tool.black]
+line-length = 110
+target-version = ['py312']
+
+
+[tool.isort]
+profile = "black"
+
+
+[tool.mypy]
+plugins = ['pydantic.mypy']
+install_types = "true"
 
 
 [build-system]

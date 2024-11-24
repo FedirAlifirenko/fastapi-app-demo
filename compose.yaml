@@ -5,15 +5,41 @@ services:
     build: .
     ports:
       - "8000:8000"
+    environment:
+      DATABASE_URL: "postgresql+asyncpg://demo:demo@db/demo"
     healthcheck:
       test: [ "CMD", "python", "-c", "import requests; requests.get('http://localhost:8000/api/health').raise_for_status()" ]
       interval: 5s
       retries: 10
       start_period: 1s
       timeout: 5s
+    depends_on:
+      db:
+        condition: service_healthy
 
   test:
       <<: *api
       container_name: demo-api-test
       profiles: ["test"]
       command: poetry run task ci
+
+  db:
+    container_name: demo-db
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: demo
+      POSTGRES_PASSWORD: demo
+      POSTGRES_DB: demo
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "demo" ]
+      interval: 5s
+      retries: 10
+      start_period: 1s
+      timeout: 5s
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+    db-data:

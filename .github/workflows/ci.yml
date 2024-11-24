@@ -39,6 +39,13 @@ jobs:
       run: |
         poetry run task lint
 
-    - name: Test
+    - name: Check Docker and Docker Compose versions
       run: |
-        poetry run task test
+        docker --version
+        docker compose version
+
+    - name: Build and test using Docker Compose
+      run: |
+        docker compose build test
+        docker compose run --rm test
+        docker compose down --remove-orphans --volumes 
