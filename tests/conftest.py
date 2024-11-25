@@ -34,6 +34,7 @@ async def db_session():
     session_manager = DatabaseSessionManager()
 
     async with session_manager.engine.begin() as conn:
+        await conn.run_sync(BaseModel.metadata.drop_all)
         await conn.run_sync(BaseModel.metadata.create_all)
 
     try:

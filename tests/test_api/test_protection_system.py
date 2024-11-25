@@ -10,8 +10,8 @@ pytestmark = pytest.mark.anyio
 
 TEST_PROTECTION_SYSTEM = {"name": "Test-1", "encryption_mode": "AES_CBC"}
 
-TEST_CREATE_PROTECTION_SYSTEM = {"id": 2, "name": "Test-2", "encryption_mode": "AES_ECB"}
-TEST_CREATE_PROTECTION_SYSTEM_2 = {"id": 3, "name": "Test-3", "encryption_mode": "AES_ECB"}
+TEST_CREATE_PROTECTION_SYSTEM = {"id": 2, "name": "Test-2", "encryption_mode": "AES_CBC"}
+TEST_CREATE_PROTECTION_SYSTEM_2 = {"id": 3, "name": "Test-3", "encryption_mode": "AES_CBC"}
 
 UNSUPPORTED_ENCRYPTION_MODE = {"name": "Test-1", "encryption_mode": "TEST"}
 
@@ -45,7 +45,7 @@ async def test_create_unprocessable_entity(client: TestClient, router: APIRouter
     response = client.post(url, json=UNSUPPORTED_ENCRYPTION_MODE)
 
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
-    assert response.json()["detail"][0]["msg"] == "Input should be 'AES_ECB' or 'AES_CBC'"
+    assert response.json()["detail"][0]["msg"] == "Input should be 'AES_CBC'"
 
 
 async def test_read(protection_system, client: TestClient, router: APIRouter) -> None:

@@ -16,6 +16,8 @@ pip install poetry
 poetry config virtualenvs.create false
 poetry install --with dev
 ```
+#### Prepare .env file
+Use the provided `.env.example` file to create a `.env` file with the necessary environment variables.
 
 ### Testing
 #### Locally
@@ -23,7 +25,7 @@ Run lint checks
 ```commandline
 poetry run task lint
 ```
-Run tests
+Run tests (ensure that db is running `docker compose up -d db db-migrate`)
 ```commandline
 poetry run task test
 ```
@@ -41,3 +43,13 @@ Run everything in docker
 docker compose up
 ```
 Open [http://localhost:8000/docs](http://localhost:8000/docs) in your browser to see the API documentation.
+
+## TODO
+### Functional
+- [ ] Support other encryption modes 
+
+### Non-functional
+- [ ] Cover all administration endpoints with tests
+- [ ] Pagination for the list routes
+- [ ] Timestamp fields for the models (created_at, updated_at)
+- [ ] Measuring test coverage

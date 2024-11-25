@@ -1,12 +1,13 @@
 from http import HTTPStatus
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Response
 
 from app.api.dependencies import (
     get_content_repository,
     get_protection_system_repository,
 )
 from app.api.models.content import Content, ContentCreate, DecryptedContent
+from app.api.models.protection_system import EncryptionMode
 from app.db.repository.content import ContentRepository
 from app.db.repository.protection_system import ProtectionSystemRepository
 from app.services import Encryptor
@@ -24,6 +25,12 @@ async def create_content(
     if not protection_system:
         raise HTTPException(status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Protection system not found")
 
+    if protection_system.encryption_mode != EncryptionMode.aes_cbc:
+        raise HTTPException(
+            status_code=HTTPStatus.UNPROCESSABLE_ENTITY,
+            detail="Input should be 'AES_CBC'",
+        )
+
     encryptor = Encryptor.from_plaintext_key(create_data.encryption_key)
     iv, ciphertext = encryptor.encrypt(create_data.payload)
 
@@ -33,6 +40,14 @@ async def create_content(
         encrypted_payload=ciphertext,
     )
     return Content.model_validate(content)
+
+
+@router.get("", name="list-content", description="List content")
+async def list_content(
+    repo: ContentRepository = Depends(get_content_repository),
+) -> list[Content]:
+    contents = await repo.list()
+    return [Content.model_validate(content) for content in contents]
 
 
 @router.get("/{id}", name="read-content", description="Read content")
@@ -45,6 +60,19 @@ async def read_content(
         raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Content not found")
 
     return Content.model_validate(content)
+
+
+@router.delete("/{id}", name="delete-content", description="Delete content")
+async def delete_content(
+    id: int,
+    repo: ContentRepository = Depends(get_content_repository),
+) -> Response:
+    content = await repo.get(id)
+    if not content:
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Content not found")
+
+    await repo.delete(content)
+    return Response(status_code=HTTPStatus.NO_CONTENT)
 
 
 @router.get("/{id}/decrypt", name="decrypt-content", description="Decrypt content")

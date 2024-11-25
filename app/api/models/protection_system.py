@@ -1,11 +1,10 @@
 from enum import StrEnum
 from typing import ClassVar
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 class EncryptionMode(StrEnum):
-    aes_ecb: str = "AES_ECB"
     aes_cbc: str = "AES_CBC"
 
 
@@ -18,8 +17,8 @@ class ProtectionSystem(BaseModel):
 
 
 class ProtectionSystemCreate(BaseModel):
-    name: str
-    encryption_mode: EncryptionMode
+    name: str = Field(..., examples=["My Protection System"])
+    encryption_mode: EncryptionMode = Field(..., examples=[EncryptionMode.aes_cbc])
 
 
 class ProtectionSystemUpdate(BaseModel):

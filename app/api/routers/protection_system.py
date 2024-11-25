@@ -66,7 +66,12 @@ async def update_protection_system(
     return ProtectionSystem.model_validate(updated_protection_system)
 
 
-@router.delete("/{id}", name="delete-protection-system", description="Delete a protection system")
+@router.delete(
+    "/{id}",
+    name="delete-protection-system",
+    description="Delete a protection system. "
+    "⚠️ This will also delete all associated Content and Device objects (cascade).",
+)
 async def delete_protection_system(
     id: int,
     repo: ProtectionSystemRepository = Depends(get_protection_system_repository),
