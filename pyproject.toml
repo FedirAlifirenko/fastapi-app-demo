@@ -23,6 +23,7 @@ mypy = "^1.13.0"
 flake8 = "^7.1.1"
 isort = "^5.13.2"
 pytest = "^8.3.3"
+pytest-cov = "^6.0.0"
 
 
 [tool.taskipy.tasks]
@@ -32,7 +33,7 @@ lint_flake8 = "flake8 app tests"
 lint_black = "black --check app tests"
 lint_mypy = "mypy app tests --install-types --non-interactive"
 
-test = "pytest -v"
+test = "pytest -v --cov-fail-under=80 --cov=app"
 format = "task format_isort && task format_black"
 format_isort = "isort app tests"
 format_black = "black app tests"

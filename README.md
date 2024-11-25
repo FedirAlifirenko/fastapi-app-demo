@@ -49,7 +49,7 @@ Open [http://localhost:8000/docs](http://localhost:8000/docs) in your browser to
 - [ ] Support other encryption modes 
 
 ### Non-functional
+- [x] Measuring test coverage
 - [ ] Cover all administration endpoints with tests
 - [ ] Pagination for the list routes
 - [ ] Timestamp fields for the models (created_at, updated_at)
-- [ ] Measuring test coverage
