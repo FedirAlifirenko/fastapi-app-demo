@@ -3,6 +3,7 @@ from typing import AsyncGenerator
 from fastapi import Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.db.repository.content import ContentRepository
 from app.db.repository.protection_system import ProtectionSystemRepository
 from app.db.session import DatabaseSessionManager
 
@@ -20,3 +21,9 @@ def get_protection_system_repository(
     db_session: AsyncSession = Depends(get_db_session),
 ) -> ProtectionSystemRepository:
     return ProtectionSystemRepository(db_session=db_session)
+
+
+def get_content_repository(
+    db_session: AsyncSession = Depends(get_db_session),
+) -> ContentRepository:
+    return ContentRepository(db_session=db_session)
