@@ -1,3 +1,5 @@
+[![app-demo](https://github.com/FedirAlifirenko/fastapi-app-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/FedirAlifirenko/fastapi-app-demo/actions/workflows/ci.yml)
+
 # Backend API (FastAPI app)
 
 ## Development
