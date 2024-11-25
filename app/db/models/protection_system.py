@@ -17,5 +17,9 @@ class ProtectionSystem(BaseModel):
     name: Mapped[str] = mapped_column(String(255))
     encryption_mode: Mapped[EncryptionMode] = mapped_column(Enum(EncryptionMode))
 
-    devices = relationship("Device", back_populates="protection_system", lazy="selectin")
-    contents = relationship("Content", back_populates="protection_system", lazy="selectin")
+    devices = relationship(
+        "Device", back_populates="protection_system", lazy="selectin", cascade="all,delete"
+    )
+    contents = relationship(
+        "Content", back_populates="protection_system", lazy="selectin", cascade="all,delete"
+    )

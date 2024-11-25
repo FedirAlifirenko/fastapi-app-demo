@@ -1,6 +1,6 @@
 
 services:
-  api: &api
+  api:
     container_name: demo-api
     build: .
     ports:
@@ -16,12 +16,21 @@ services:
     depends_on:
       db:
         condition: service_healthy
+      db-migrate:
+        condition: service_completed_successfully
 
   test:
-      <<: *api
-      container_name: demo-api-test
-      profiles: ["test"]
-      command: poetry run task ci
+    container_name: demo-api-test
+    build: .
+    profiles: ["test"]
+    command: poetry run task ci
+    environment:
+      DATABASE_URL: "postgresql+asyncpg://demo:demo@db/demo"
+    depends_on:
+      db:
+        condition: service_healthy
+      db-migrate:
+        condition: service_completed_successfully
 
   db:
     container_name: demo-db
@@ -40,6 +49,17 @@ services:
       timeout: 5s
     volumes:
       - db-data:/var/lib/postgresql/data
+
+  db-migrate:
+    container_name: demo-db-migrate
+    build: .
+    command: poetry run alembic upgrade head
+    environment:
+      DATABASE_URL: "postgresql+asyncpg://demo:demo@db/demo"
+    depends_on:
+      db:
+        condition: service_healthy
+
 
 volumes:
     db-data:

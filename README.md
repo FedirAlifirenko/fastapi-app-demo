@@ -29,11 +29,15 @@ poetry run task test
 ```
 
 #### Docker
-Run tests in docker using poetry task 
-```commandline
-poetry run task compose-test
-```
-Or just use `docker-compose`
+Run tests in docker
 ```commandline
 docker compose run --rm test
 ```
+
+
+### Running
+Run everything in docker
+```commandline
+docker compose up
+```
+Open [http://localhost:8000/docs](http://localhost:8000/docs) in your browser to see the API documentation.
