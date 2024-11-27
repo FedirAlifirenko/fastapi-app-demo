@@ -1,6 +1,5 @@
 from sqlalchemy import Column, ForeignKey, Table
 
-# from sqlalchemy.orm import DeclarativeBase
 from app.db.models.base import BaseModel
 
 user_device = Table(

@@ -23,7 +23,7 @@ services:
     container_name: demo-api-test
     build: .
     profiles: ["test"]
-    command: poetry run task test
+    command: poetry run task ci
     environment:
       DATABASE_URL: "postgresql+asyncpg://demo:demo@db/demo"
     depends_on:

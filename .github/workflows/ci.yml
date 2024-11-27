@@ -35,9 +35,9 @@ jobs:
         poetry config virtualenvs.create false
         poetry install --with dev
 
-#    - name: Lint
-#      run: |
-#        poetry run task lint
+    - name: Lint
+      run: |
+        poetry run task lint
 
     - name: Check Docker and Docker Compose versions
       run: |
