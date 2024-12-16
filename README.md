@@ -1,6 +1,30 @@
 [![app-demo](https://github.com/FedirAlifirenko/fastapi-app-demo/actions/workflows/ci.yml/badge.svg)](https://github.com/FedirAlifirenko/fastapi-app-demo/actions/workflows/ci.yml)
 
-# Backend API (FastAPI app)
+# Example API with a Persistence Layer
+## Description
+
+This project showcases an API implementation with a persistence layer, serving as a reference for building scalable and maintainable APIs using modern Python backend technologies and best practices.
+
+### **Technologies Used**
+- **Web App Layer:** FastAPI  
+- **Persistence Layer:** SQLAlchemy, PostgreSQL  
+- **Deployment:** Docker Compose  
+- **Database Migrations:** Alembic  
+- **Testing:** Pytest  
+- **Code Formatting & Linting:** Black, Isort, Flake8, Mypy  
+- **Task Automation:** Poetry + Taskipy  
+
+### **Project Structure**
+- **`./app`:** Main application package  
+  - **`./api`:** FastAPI routers and request/response models  
+  - **`./app/db`:** SQLAlchemy models, database session management, and CRUD operations (`SqlAlchemyRepository`)  
+  - **`./app/services`:** Business logic  
+- **`./tests`:** Test suite  
+- **`./migrations`:** Alembic migrations  
+
+### **API Endpoints**
+![API docs](images/api-docs.png)
+
 
 ## Development
 ### Installation
