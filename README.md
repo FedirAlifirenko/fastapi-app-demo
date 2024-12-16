@@ -17,8 +17,8 @@ This project showcases an API implementation with a persistence layer, serving a
 ### **Project Structure**
 - **`./app`:** Main application package  
   - **`./api`:** FastAPI routers and request/response models  
-  - **`./app/db`:** SQLAlchemy models, database session management, and CRUD operations (`SqlAlchemyRepository`)  
-  - **`./app/services`:** Business logic  
+  - **`./db`:** SQLAlchemy models, database session management, and CRUD operations (`SqlAlchemyRepository`)  
+  - **`./services`:** Business logic  
 - **`./tests`:** Test suite  
 - **`./migrations`:** Alembic migrations  
 
